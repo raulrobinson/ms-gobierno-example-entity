@@ -1,0 +1,54 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: ms-gobierno-example-entity
+  name: ms-gobierno-example-entity
+spec:
+  replicas: 1
+  selector:
+    app: ms-gobierno-example-entity
+    deploymentconfig: ms-gobierno-example-entity
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: ms-gobierno-example-entity
+        deploymentconfig: ms-gobierno-example-entity
+    spec:
+      containers:
+        - name: ms-gobierno-example-entity
+          image: image-registry.openshift-image-registry.svc:5000/mi-movistar/templaterestblank:latest
+          env:
+            - name: SPRING_APPLICATION_JSON
+              value: '{"server":{"undertow":{"io-threads":10, "worker-threads":80 }}}'
+            - name: JAVA_OPTIONS
+              value: '-Xms640m -Xmx1024m -Dfile.encoding=ISO-8859-1'
+          readinessProbe:
+            httpGet:
+              path: /actuator/
+              port: 8087
+              scheme: HTTP
+            failureThreshold: 3
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 120
+          livenessProbe:
+            httpGet:
+              path: /actuator/
+              port: 8087
+              scheme: HTTP
+            failureThreshold: 2
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 120
+          resources:
+            limits:
+              cpu: 400m
+              memory: 1024Mi
+            requests:
+              cpu: 100m
+              memory: 300Mi
