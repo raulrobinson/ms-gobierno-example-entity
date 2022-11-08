@@ -7,5 +7,6 @@
 # ------------------------------------------------------------------------
 
 FROM openjdk:11-jre-slim-buster
-COPY ./src/telco-micro-java-arch-restblank.jar /opt/microservice/telco-micro-java-arch-restblank.jar
-ENTRYPOINT ["java","-jar","/opt/microservice/telco-micro-java-arch-restblank.jar"]
+RUN apt-get update && apt-get install curl -y
+COPY ./src/ms-gobierno-example-entity.jar /opt/microservice/ms-gobierno-example-entity.jar
+ENTRYPOINT ["java","-Duser.timezone=CO","-jar","/opt/microservice/ms-gobierno-example-entity.jar"]

@@ -1,54 +1,142 @@
-apiVersion: apps.openshift.io/v1
-kind: DeploymentConfig
+apiVersion: v1
+kind: Template
 metadata:
-  labels:
-    app: ms-gobierno-example-entity
-  name: ms-gobierno-example-entity
-spec:
-  replicas: 1
-  selector:
-    app: ms-gobierno-example-entity
-    deploymentconfig: ms-gobierno-example-entity
-  template:
+  name: template-ms-gobierno-example-entity
+  annotations:
+    description: "Template para generacion del servicio de ms-gobierno-example-entity para Telefonica"
+    iconClass: "icon-rh-integration"
+objects:
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
     metadata:
-      annotations:
-        sidecar.istio.io/inject: "true"
       labels:
         app: ms-gobierno-example-entity
-        deploymentconfig: ms-gobierno-example-entity
+        app.kubernetes.io/component: ms-gobierno-example-entity
+        app.kubernetes.io/instance: ms-gobierno-example-entity
+      name: ms-gobierno-example-entity
+      namespace: gobierno
     spec:
-      containers:
-        - name: ms-gobierno-example-entity
-          image: image-registry.openshift-image-registry.svc:5000/mi-movistar/templaterestblank:latest
-          env:
-            - name: SPRING_APPLICATION_JSON
-              value: '{"server":{"undertow":{"io-threads":10, "worker-threads":80 }}}'
-            - name: JAVA_OPTIONS
-              value: '-Xms640m -Xmx1024m -Dfile.encoding=ISO-8859-1'
-          readinessProbe:
-            httpGet:
-              path: /actuator/
-              port: 8087
-              scheme: HTTP
-            failureThreshold: 3
-            initialDelaySeconds: 20
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 120
-          livenessProbe:
-            httpGet:
-              path: /actuator/
-              port: 8087
-              scheme: HTTP
-            failureThreshold: 2
-            initialDelaySeconds: 60
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 120
-          resources:
-            limits:
-              cpu: 400m
-              memory: 1024Mi
-            requests:
-              cpu: 100m
-              memory: 300Mi
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        app: ms-gobierno-example-entity
+        deploymentconfig: ms-gobierno-example-entity
+      strategy:
+        activeDeadlineSeconds: 21600
+        resources: { }
+        rollingParams:
+          intervalSeconds: 1
+          maxSurge: 25%
+          maxUnavailable: 25%
+          timeoutSeconds: 600
+          updatePeriodSeconds: 1
+        type: Rolling
+      template:
+        metadata:
+          annotations:
+            openshift.io/generated-by: OpenShiftNewApp
+            sidecar.istio.io/inject: "true"
+          labels:
+            app: ms-gobierno-example-entity
+            deploymentconfig: ms-gobierno-example-entity
+        spec:
+          containers:
+            - name: ms-gobierno-example-entity
+              env:
+                - name: SPRING_APPLICATION_JSON
+                  value: '{"server":{"undertow":{"io-threads":10, "worker-threads":80 }}}'
+                - name: JAVA_OPTIONS
+                  value: -Xms128m -Xmx256m -Dfile.encoding=ISO-8859-1
+              image: image-registry.openshift-image-registry.svc:5000/gobierno/ms-gobierno-example-entity:latest
+              imagePullPolicy: Always
+              envFrom:
+                - configMapRef:
+                    name: configmap-ms-gobierno-example-entity
+                - secretRef:
+                    name: secret-ms-gobierno-example-entity
+              resources:
+                limits:
+                  cpu: 200m
+                  memory: 512Mi
+                requests:
+                  cpu: 10m
+                  memory: 10Mi
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: { }
+          terminationGracePeriodSeconds: 30
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: ms-gobierno-example-entity
+        app.kubernetes.io/component: ms-gobierno-example-entity
+        app.kubernetes.io/instance: ms-gobierno-example-entity
+      name: ms-gobierno-example-entity
+      namespace: gobierno
+    spec:
+      ports:
+        - name: http-web
+          port: 8080
+          protocol: TCP
+      selector:
+        deploymentconfig: ms-gobierno-example-entity
+      sessionAffinity: None
+      type: ClusterIP
+  - apiVersion: autoscaling/v2beta2
+    kind: HorizontalPodAutoscaler
+    metadata:
+      labels:
+        app: ms-gobierno-example-entity
+      name: ms-gobierno-example-entity
+      namespace: gobierno
+    spec:
+      scaleTargetRef:
+        apiVersion: apps.openshift.io/v1
+        kind: DeploymentConfig
+        name: ms-gobierno-example-entity
+      minReplicas: 1
+      maxReplicas: 2
+      metrics:
+        - type: Resource
+          resource:
+            name: cpu
+            target:
+              averageUtilization: 80
+              type: Utilization
+  - kind: ConfigMap
+    apiVersion: v1
+    metadata:
+      name: configmap-ms-gobierno-example-entity
+    data:
+      server.port: '8080'
+  - apiVersion: networking.istio.io/v1beta1
+    kind: DestinationRule
+    metadata:
+      name: ms-gobierno-example-entity
+      namespace: gobierno
+    spec:
+      host: ms-gobierno-example-entity
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
+  - apiVersion: networking.istio.io/v1beta1
+    kind: VirtualService
+    metadata:
+      name: ms-gobierno-example-entity
+      namespace: gobierno
+    spec:
+      gateways:
+        - istio-system/wildcard-gateway
+      hosts:
+        - '*'
+      http:
+        - match:
+            - uri:
+                regex: /telefonica/v1/ms-gobierno-example-entity/*
+          route:
+            - destination:
+                host: ms-gobierno-example-entity
+                port:
+                  number: 8080
