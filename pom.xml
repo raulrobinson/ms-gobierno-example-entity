@@ -13,7 +13,7 @@
 	<artifactId>ms-gobierno-example-entity</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ms-gobierno-example-entity</name>
-	<description>Test java-springboot-rest-template</description>
+	<description>Test java-springboot-rest-template.</description>
 	<packaging>jar</packaging>
 	<properties>
 		<!--
