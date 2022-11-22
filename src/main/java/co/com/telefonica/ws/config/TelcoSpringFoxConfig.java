@@ -15,17 +15,25 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+/**
+ * NO BORRAR
+ * Clase Documentation SWAGGER.
+ *
+ * @version 1.1.0
+ * @author COEArquitectura@telefonica.com
+ * @since 22/11/2022
+ * */
 @Component
 @Configuration
-public class SpringFoxConfig {
+public class TelcoSpringFoxConfig {
 
-	private static final Set<String> DEFAULT_PRODUCES_CONSUMES = new HashSet<String>(List.of("application/json"));
+	private static final Set<String> DEFAULT_PRODUCES_CONSUMES = new HashSet<>(List.of("application/json"));
 
 	@Value("${controller.properties.base-path}")
 	private String uriBasePattern;
 
 	@Autowired
-	private SwaggerProperties swaggerProperties;
+	private TelcoSwaggerProperties swaggerProperties;
 
 	@Bean
 	public Docket api() {
@@ -41,6 +49,10 @@ public class SpringFoxConfig {
 				.apiInfo(apiInfo());
 	}
 
+	/**
+	 * Class API Info.
+	 * @return
+	 */
 	private ApiInfo apiInfo() {
 
 		return new ApiInfo(

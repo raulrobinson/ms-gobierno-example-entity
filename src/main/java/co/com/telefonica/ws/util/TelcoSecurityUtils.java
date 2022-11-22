@@ -3,9 +3,17 @@ package co.com.telefonica.ws.util;
 import org.owasp.html.PolicyFactory;
 import org.owasp.html.Sanitizers;
 
-public class SecurityUtils {
+/**
+ * NO BORRAR
+ * Clase de utilidades de Seguridad.
+ *
+ * @version 1.1.0
+ * @author COEArquitectura@telefonica.com
+ * @since 22/11/2022
+ **/
+public class TelcoSecurityUtils {
 	
-	private SecurityUtils() {}
+	private TelcoSecurityUtils() {}
 	
 	/**
 	 * Función que se encarga de cubrir la vulnerabilidad de cross site scripting

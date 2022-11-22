@@ -11,13 +11,12 @@ import lombok.NoArgsConstructor;
 
 /**
  * NO BORRAR
- * 
  * Clase empleada para mapear las propiedades registradas en el application.properties
  * referentes a la documentación autogenerada.
- * 
- * @version 1.0.0
+ *
+ * @version 1.1.0
  * @author COEArquitectura@telefonica.com
- * @since 27/12/2021
+ * @since 22/11/2022
  * */
 @Getter
 @Setter
@@ -26,7 +25,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor()
 @Configuration
 @ConfigurationProperties(prefix = "swagger.properties")
-public class SwaggerProperties {
+public class TelcoSwaggerProperties {
 
 	/**
 	 * Nombre del microservicio o del proyecto

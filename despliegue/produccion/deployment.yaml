@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: ms-gobierno-example-entity
-          image: image-registry.openshift-image-registry.svc:5000/mi-movistar/templaterestblank:latest
+          image: image-registry.openshift-image-registry.svc:5000/mi-movistar/ms-gobierno-example-entity:latest
           env:
             - name: SPRING_APPLICATION_JSON
               value: '{"server":{"undertow":{"io-threads":10, "worker-threads":80 }}}'
