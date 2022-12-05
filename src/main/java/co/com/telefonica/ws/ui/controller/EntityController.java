@@ -3,6 +3,7 @@ package co.com.telefonica.ws.ui.controller;
 import co.com.telefonica.ws.businesslogic.EbookService;
 import co.com.telefonica.ws.dto.EbookDTO;
 import co.com.telefonica.ws.entity.Ebook;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "${controller.properties.base-path}", produces = MediaType.APPLICATION_JSON_VALUE)
 public class EntityController {
 

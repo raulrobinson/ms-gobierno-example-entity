@@ -50,10 +50,8 @@ objects:
               image: image-registry.openshift-image-registry.svc:5000/gobierno/ms-gobierno-example-entity:latest
               imagePullPolicy: Always
               envFrom:
-                - configMapRef:
-                    name: configmap-ms-gobierno-example-entity
                 - secretRef:
-                    name: secret-ms-gobierno-example-entity
+                    name: secret-mongo-database
               resources:
                 limits:
                   cpu: 200m
@@ -105,12 +103,6 @@ objects:
             target:
               averageUtilization: 80
               type: Utilization
-  - kind: ConfigMap
-    apiVersion: v1
-    metadata:
-      name: configmap-ms-gobierno-example-entity
-    data:
-      server.port: '8080'
   - apiVersion: networking.istio.io/v1beta1
     kind: DestinationRule
     metadata:
