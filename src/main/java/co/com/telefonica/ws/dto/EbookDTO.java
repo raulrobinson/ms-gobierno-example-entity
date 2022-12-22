@@ -5,7 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EbookDTO {
+public class EbookDTO
+{
     private String title;
     private String description;
     private boolean published;

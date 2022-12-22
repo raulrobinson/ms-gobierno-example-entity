@@ -25,7 +25,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor()
 @Configuration
 @ConfigurationProperties(prefix = "swagger.properties")
-public class TelcoSwaggerProperties {
+public class TelcoSwaggerProperties
+{
 
 	/**
 	 * Nombre del microservicio o del proyecto

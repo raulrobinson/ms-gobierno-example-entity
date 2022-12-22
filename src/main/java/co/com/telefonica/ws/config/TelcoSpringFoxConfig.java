@@ -25,7 +25,8 @@ import springfox.documentation.spring.web.plugins.Docket;
  * */
 @Component
 @Configuration
-public class TelcoSpringFoxConfig {
+public class TelcoSpringFoxConfig
+{
 
 	private static final Set<String> DEFAULT_PRODUCES_CONSUMES = new HashSet<>(List.of("application/json"));
 
@@ -36,7 +37,8 @@ public class TelcoSpringFoxConfig {
 	private TelcoSwaggerProperties swaggerProperties;
 
 	@Bean
-	public Docket api() {
+	public Docket api()
+	{
 		String regexUri = "/" + this.uriBasePattern + ".*";
 
 		return new Docket(DocumentationType.SWAGGER_2)
@@ -53,8 +55,8 @@ public class TelcoSpringFoxConfig {
 	 * Class API Info.
 	 * @return
 	 */
-	private ApiInfo apiInfo() {
-
+	private ApiInfo apiInfo()
+	{
 		return new ApiInfo(
 				this.swaggerProperties.getProjectName(),
 				this.swaggerProperties.getProjectShortDescription(),

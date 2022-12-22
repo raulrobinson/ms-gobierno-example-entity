@@ -7,7 +7,8 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestDTO {
+public class RequestDTO
+{
     private String title;
     private String description;
     private boolean published;

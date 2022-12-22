@@ -27,12 +27,16 @@ public class EntityController {
 
 	@GetMapping("/e-books/{id}")
 	public ResponseEntity<ResponseDTO> getEbookById(
-			@PathVariable("id") String id) {
+			@PathVariable("id") String id)
+	{
 		PolicyFactory policy = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
 		Optional<Ebook> ebookData = ebookService.getEbookById(id);
-		if (ebookData.isEmpty()) {
+
+		if (ebookData.isEmpty())
+		{
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+
 		var res = ResponseDTO.builder()
 				.title(policy.sanitize(ebookData.map(Ebook::getTitle).orElse(null)))
 				.description(policy.sanitize(ebookData.map(Ebook::getDescription).orElse(null)))
@@ -44,12 +48,16 @@ public class EntityController {
 
 	@PostMapping("/e-books")
 	public ResponseEntity<ResponseDTO> createEbook(
-			@RequestBody EbookDTO ebook) {
+			@RequestBody EbookDTO ebook)
+	{
 		PolicyFactory policy = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
 		var ebookData = ebookService.createEbook(new Ebook(ebook.getTitle(), ebook.getDescription(), false));
-		if (ebookData == null) {
+
+		if (ebookData == null)
+		{
 			return ResponseEntity.badRequest().build();
 		}
+
 		return new ResponseEntity<>(ResponseDTO.builder()
 				.title(policy.sanitize(ebookData.getTitle()))
 				.description(policy.sanitize(ebookData.getDescription()))
@@ -60,23 +68,31 @@ public class EntityController {
 	@PutMapping("/e-books/{id}")
 	public ResponseEntity<ResponseDTO> updateEbook(
 			@PathVariable("id") String id,
-			@RequestBody EbookDTO ebook) {
+			@RequestBody EbookDTO ebook)
+	{
 		PolicyFactory policy = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
 		Optional<Ebook> ebookData = ebookService.getEbookById(id);
-		if (ebookData.isPresent()) {
+
+		if (ebookData.isPresent())
+		{
 			Ebook ebookReq = ebookData.get();
 			ebookReq.setTitle(ebook.getTitle());
 			ebookReq.setDescription(ebook.getDescription());
 			ebookReq.setPublished(ebook.isPublished());
-			if (ebookService.createEbook(ebookReq) != null) {
+
+			if (ebookService.createEbook(ebookReq) != null)
+			{
 				return new ResponseEntity<>(ResponseDTO.builder()
 						.title(policy.sanitize(ebookReq.getTitle()))
 						.description(policy.sanitize(ebookReq.getDescription()))
 						.published(Boolean.parseBoolean((policy.sanitize(String.valueOf(ebookReq.isPublished())))))
 						.build(), HttpStatus.CREATED);
 			}
+
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		} else {
+		}
+		else
+		{
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}

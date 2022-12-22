@@ -11,9 +11,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 22/11/2022
  */
 @SpringBootApplication
-public class AppWsApplication {
-
-	public static void main(String[] args) {
+public class AppWsApplication
+{
+	public static void main(String[] args)
+	{
 		SpringApplication.run(AppWsApplication.class, args);
 	}
 	
