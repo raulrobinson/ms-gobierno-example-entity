@@ -17,11 +17,11 @@ public class TelcoLdapServiceDirector {
 
     DirContext connection;
 
-    public InitialDirContext newConnection(String userprincipalnamecondominio, String password) throws NamingException {
+    public InitialDirContext newConnection(String userDN, String password) throws NamingException {
         Properties env = new Properties();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         env.put(Context.PROVIDER_URL, ldapProvider);
-        env.put(Context.SECURITY_PRINCIPAL, userprincipalnamecondominio);
+        env.put(Context.SECURITY_PRINCIPAL, userDN);
         env.put(Context.SECURITY_CREDENTIALS, password);
         return new InitialDirContext(env);
     }

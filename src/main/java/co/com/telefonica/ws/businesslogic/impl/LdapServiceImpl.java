@@ -41,21 +41,33 @@ public class LdapServiceImpl implements LdapService {
     @Override
     public ResponseEntity<ResponseDTO> accessUserByUserName(UserDTO user) throws NamingException {
 
-        String usernameDomain = user.getUsername() + ldapDomain;
-        String searchFilter = "userPrincipalName="+usernameDomain+"";
+        var userDN = user.getUsername();
+        var passDN = user.getPassword();
+
+        if (userDN.matches("\\w\\d*") || passDN.matches("\\w\\d*")) {
+            return new ResponseEntity<>(ResponseDTO.builder()
+                    .code(403)
+                    .data(TelcoSecurityUtils.blindParameter("none"))
+                    .message(TelcoSecurityUtils.blindParameter("403 Forbidden"))
+                    .build(), HttpStatus.FORBIDDEN);
+        }
+
+        String searchFilter = "userPrincipalName=" + userDN + ldapDomain;
         String [] ldapObjects = ldapObjectsForest.toArray(new String[0]);
 
         SearchControls controls = new SearchControls();
         controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
         controls.setReturningAttributes(ldapObjects);
 
-        InitialDirContext rescon = telcoLdapServiceDirector.newConnection(usernameDomain, user.getPassword());
+        InitialDirContext rescon = telcoLdapServiceDirector.newConnection(userDN + ldapDomain, user.getPassword());
 
-        NamingEnumeration<SearchResult> users = rescon.search(ldapObjectsForest.get(5) + "," + ldapObjectsForest.get(6), searchFilter, controls);
+        var lQry = ldapObjectsForest.get(5) + "," + ldapObjectsForest.get(6);
+
+        NamingEnumeration<SearchResult> users = rescon.search(lQry, searchFilter, controls);
 
         SearchResult result = null;
 
-        if (users.hasMore() && authUser(usernameDomain, user.getPassword())) {
+        if (users.hasMore() && authUser(userDN + ldapDomain, user.getPassword())) {
             result = users.next();
             Attributes attr = result.getAttributes();
 
