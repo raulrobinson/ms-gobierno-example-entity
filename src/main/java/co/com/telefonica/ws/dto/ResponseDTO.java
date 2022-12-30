@@ -1,15 +1,16 @@
 package co.com.telefonica.ws.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class ResponseDTO
-{
-    private String title;
-    private String description;
-    private boolean published;
+@NoArgsConstructor
+public class ResponseDTO {
+    private Integer code;
+    private Object data;
+    private String message;
 }
