@@ -4,6 +4,7 @@ import co.com.telefonica.ws.businesslogic.LdapService;
 import co.com.telefonica.ws.dto.ResponseDTO;
 import co.com.telefonica.ws.dto.UserDTO;
 import co.com.telefonica.ws.util.TelcoLdapServiceDirector;
+import co.com.telefonica.ws.util.TelcoSecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,7 +51,7 @@ public class LdapServiceImpl implements LdapService {
 
         InitialDirContext rescon = telcoLdapServiceDirector.newConnection(usernameDomain, user.getPassword());
 
-        NamingEnumeration<SearchResult> users = rescon.search("dc=nh,dc=inet", searchFilter, controls);
+        NamingEnumeration<SearchResult> users = rescon.search(ldapObjectsForest.get(5) + "," + ldapObjectsForest.get(6), searchFilter, controls);
 
         SearchResult result = null;
 
@@ -84,31 +85,27 @@ public class LdapServiceImpl implements LdapService {
             return new ResponseEntity<>(ResponseDTO.builder()
                     .code(200)
                     .data(props)
-                    .message("Success")
+                    .message(TelcoSecurityUtils.blindParameter("Success"))
                     .build(), HttpStatus.OK);
 
         } else {
             return new ResponseEntity<>(ResponseDTO.builder()
                     .code(403)
-                    .data("none")
-                    .message("403 Forbidden")
+                    .data(TelcoSecurityUtils.blindParameter("none"))
+                    .message(TelcoSecurityUtils.blindParameter("403 Forbidden"))
                     .build(), HttpStatus.FORBIDDEN);
         }
     }
 
-    public boolean authUser(String usernameDomain, String password) {
-        try {
-            Properties env = new Properties();
-            env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-            env.put(Context.PROVIDER_URL, ldapProvider);
-            env.put(Context.SECURITY_PRINCIPAL, usernameDomain);
-            env.put(Context.SECURITY_CREDENTIALS, password);
-            DirContext con = new InitialDirContext(env);
-            con.close();
-            return true;
-        }catch (Exception e) {
-            return false;
-        }
+    public boolean authUser(String usernameDomain, String password) throws NamingException {
+        Properties env = new Properties();
+        env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+        env.put(Context.PROVIDER_URL, ldapProvider);
+        env.put(Context.SECURITY_PRINCIPAL, usernameDomain);
+        env.put(Context.SECURITY_CREDENTIALS, password);
+        DirContext con = new InitialDirContext(env);
+        con.close();
+        return true;
     }
 
 }
