@@ -52,7 +52,7 @@ public class LdapServiceImpl implements LdapService {
                     .build(), HttpStatus.FORBIDDEN);
         }
 
-        String searchFilter = "userPrincipalName=" + userDN + ldapDomain;
+        String searchFilter = escapeLDAPSearchFilter("userPrincipalName=" + userDN + ldapDomain);
         String [] ldapObjects = ldapObjectsForest.toArray(new String[0]);
 
         SearchControls controls = new SearchControls();
@@ -61,7 +61,7 @@ public class LdapServiceImpl implements LdapService {
 
         InitialDirContext rescon = telcoLdapServiceDirector.newConnection(userDN + ldapDomain, user.getPassword());
 
-        var lQry = ldapObjectsForest.get(5) + "," + ldapObjectsForest.get(6);
+        var lQry = escapeLDAPSearchFilter(ldapObjectsForest.get(5) + "," + ldapObjectsForest.get(6));
 
         NamingEnumeration<SearchResult> users = rescon.search(lQry, searchFilter, controls);
 
@@ -118,6 +118,33 @@ public class LdapServiceImpl implements LdapService {
         DirContext con = new InitialDirContext(env);
         con.close();
         return true;
+    }
+
+    public static String escapeLDAPSearchFilter(String filter) {
+        StringBuilder sb = new StringBuilder(); // If using JDK >= 1.5 consider using StringBuilder
+        for (int i = 0; i < filter.length(); i++) {
+            char curChar = filter.charAt(i);
+            switch (curChar) {
+                case '\\':
+                    sb.append("\\5c");
+                    break;
+                case '*':
+                    sb.append("\\2a");
+                    break;
+                case '(':
+                    sb.append("\\28");
+                    break;
+                case ')':
+                    sb.append("\\29");
+                    break;
+                case '\u0000':
+                    sb.append("\\00");
+                    break;
+                default:
+                    sb.append(curChar);
+            }
+        }
+        return sb.toString();
     }
 
 }
