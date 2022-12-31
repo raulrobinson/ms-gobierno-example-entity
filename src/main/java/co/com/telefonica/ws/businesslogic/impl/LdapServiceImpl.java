@@ -41,18 +41,17 @@ public class LdapServiceImpl implements LdapService {
     @Override
     public ResponseEntity<ResponseDTO> accessUserByUserName(UserDTO user) throws NamingException {
 
-        var userDN = user.getUsername();
-        var passDN = user.getPassword();
+        var userDN = escapeLDAPSearchFilter(user.getUsername());
+        var passDN = escapeLDAPSearchFilter(user.getPassword());
 
-        if (userDN.matches("\\w\\d*") || passDN.matches("\\w\\d*")) {
-            return new ResponseEntity<>(ResponseDTO.builder()
-                    .code(403)
-                    .data(TelcoSecurityUtils.blindParameter("none"))
-                    .message(TelcoSecurityUtils.blindParameter("403 Forbidden"))
-                    .build(), HttpStatus.FORBIDDEN);
+        String regex = "\\w\\d*";
+
+        if (userDN.matches(regex) || passDN.matches(regex)) {
+            throw new IllegalArgumentException("Invalid input");
         }
 
         String searchFilter = escapeLDAPSearchFilter("userPrincipalName=" + userDN + ldapDomain);
+
         String [] ldapObjects = ldapObjectsForest.toArray(new String[0]);
 
         SearchControls controls = new SearchControls();
@@ -62,6 +61,10 @@ public class LdapServiceImpl implements LdapService {
         InitialDirContext rescon = telcoLdapServiceDirector.newConnection(userDN + ldapDomain, user.getPassword());
 
         var lQry = escapeLDAPSearchFilter(ldapObjectsForest.get(5) + "," + ldapObjectsForest.get(6));
+
+        if (lQry.matches(regex) || searchFilter.matches(regex)) {
+            throw new IllegalArgumentException("Invalid input");
+        }
 
         NamingEnumeration<SearchResult> users = rescon.search(lQry, searchFilter, controls);
 
