@@ -31,11 +31,10 @@
 			src/main/java/co/com/telefonica/ws/AppWsApplication.java
 		</sonar.exclusions>
 		<sonar.coverage.exclusions>
-			src/main/java/co/com/telefonica/ws/actuator/**/*,
-			src/main/java/co/com/telefonica/ws/businesslogic/**/*,
 			src/main/java/co/com/telefonica/ws/config/**/*,
 			src/main/java/co/com/telefonica/ws/dto/**/*,
 			src/main/java/co/com/telefonica/ws/entity/**/*,
+			src/main/java/co/com/telefonica/ws/repository/**/*,
 			src/main/java/co/com/telefonica/ws/exception/**/*,
 			src/main/java/co/com/telefonica/ws/service/**/*,
 			src/main/java/co/com/telefonica/ws/ui/**/*,
