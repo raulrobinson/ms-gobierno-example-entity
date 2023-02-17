@@ -3,14 +3,6 @@ package co.com.telefonica.ws.util;
 import org.owasp.html.PolicyFactory;
 import org.owasp.html.Sanitizers;
 
-/**
- * NO BORRAR
- * Clase de utilidades de Seguridad.
- *
- * @version 1.1.0
- * @author COEArquitectura@telefonica.com
- * @since 22/11/2022
- **/
 public class TelcoSecurityUtils {
 	
 	private TelcoSecurityUtils() {}

@@ -1,11 +1,8 @@
 package co.com.telefonica.ws.config;
 
-import java.util.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import springfox.documentation.builders.PathSelectors;
@@ -15,18 +12,25 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
- * NO BORRAR
- * Clase Documentation SWAGGER.
+ * **********************
+ * **** NO BORRAR!!! ****
+ * **********************
  *
- * @version 1.1.0
- * @author COEArquitectura@telefonica.com
- * @since 22/11/2022
- * */
+ * CLASS CONFIGURATION SWAGGER DOCUMENTATION REST.
+ *
+ * @autor: COE-Arquitectura-Telefonica
+ * @date: 17-02-2023
+ * @version 3.0.0
+ */
 @Component
 @Configuration
-public class TelcoSpringFoxConfig
-{
+public class TelcoSpringFoxConfig {
 
 	private static final Set<String> DEFAULT_PRODUCES_CONSUMES = new HashSet<>(List.of("application/json"));
 
@@ -34,11 +38,10 @@ public class TelcoSpringFoxConfig
 	private String uriBasePattern;
 
 	@Autowired
-	private TelcoSwaggerProperties swaggerProperties;
+	private TelcoSwaggerProperties telcoSwaggerProperties;
 
 	@Bean
-	public Docket api()
-	{
+	public Docket api() {
 		String regexUri = "/" + this.uriBasePattern + ".*";
 
 		return new Docket(DocumentationType.SWAGGER_2)
@@ -51,23 +54,18 @@ public class TelcoSpringFoxConfig
 				.apiInfo(apiInfo());
 	}
 
-	/**
-	 * Class API Info.
-	 * @return
-	 */
-	private ApiInfo apiInfo()
-	{
+	private ApiInfo apiInfo() {
 		return new ApiInfo(
-				this.swaggerProperties.getProjectName(),
-				this.swaggerProperties.getProjectShortDescription(),
-				this.swaggerProperties.getProjectTosMsg(),
-				this.swaggerProperties.getProjectTosLink(),
+				this.telcoSwaggerProperties.getProjectName(),
+				this.telcoSwaggerProperties.getProjectShortDescription(),
+				this.telcoSwaggerProperties.getProjectTosMsg(),
+				this.telcoSwaggerProperties.getProjectTosLink(),
 				new Contact(
-						this.swaggerProperties.getDeveloperName(),
-						this.swaggerProperties.getOrganizationUrl(),
-						this.swaggerProperties.getDeveloperMail()),
-				this.swaggerProperties.getProjectLicenceMsg(),
-				this.swaggerProperties.getProjectLicenceLink(),
+						this.telcoSwaggerProperties.getDeveloperName(),
+						this.telcoSwaggerProperties.getOrganizationUrl(),
+						this.telcoSwaggerProperties.getDeveloperMail()),
+				this.telcoSwaggerProperties.getProjectLicenceMsg(),
+				this.telcoSwaggerProperties.getProjectLicenceLink(),
 				Collections.emptyList()
 		);
 	}

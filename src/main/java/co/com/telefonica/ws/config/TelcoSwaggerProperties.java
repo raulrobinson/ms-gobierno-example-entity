@@ -1,23 +1,20 @@
 package co.com.telefonica.ws.config;
 
+import lombok.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.NoArgsConstructor;
-
 /**
- * NO BORRAR
- * Clase empleada para mapear las propiedades registradas en el application.properties
- * referentes a la documentación autogenerada.
+ * **********************
+ * **** NO BORRAR!!! ****
+ * **********************
  *
- * @version 1.1.0
- * @author COEArquitectura@telefonica.com
- * @since 22/11/2022
- * */
+ * CLASS CONFIGURATION DOCUMENTATION PROPERTIES REST.
+ *
+ * @autor: COE-Arquitectura-Telefonica
+ * @date: 17-02-2023
+ * @version 3.0.0
+ */
 @Getter
 @Setter
 @ToString
@@ -25,8 +22,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor()
 @Configuration
 @ConfigurationProperties(prefix = "swagger.properties")
-public class TelcoSwaggerProperties
-{
+public class TelcoSwaggerProperties {
 
 	/**
 	 * Nombre del microservicio o del proyecto

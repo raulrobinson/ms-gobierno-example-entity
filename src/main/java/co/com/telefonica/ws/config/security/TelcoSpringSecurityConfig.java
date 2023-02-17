@@ -1,7 +1,6 @@
-package co.com.telefonica.ws.util;
+package co.com.telefonica.ws.config.security;
 
 import lombok.SneakyThrows;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,15 +10,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
- * NO BORRAR
- * Clase de implementaciones de Seguridad para el microservicio.
- *
- * @version 1.1.0
- * @author COEArquitectura@telefonica.com
- * @since 22/11/2022
- **/
+ * **********************
+ * **** NO BORRAR!!! ****
+ * **********************
+ * 
+ * CLASS CONFIGURATION SECURITY REST.
+ * 
+ * @autor: COE-Arquitectura-Telefonica
+ * @date: 17-02-2023
+ * @version 3.0.0
+ */
 @Configuration
-public class TelcoSecurityConfig {
+public class TelcoSpringSecurityConfig {
 
 	@Value("${controller.properties.base-path}")
 	private String uriBasePattern;
@@ -33,10 +35,12 @@ public class TelcoSecurityConfig {
 	@SneakyThrows
 	public SecurityFilterChain filterChain(HttpSecurity http) {
 		String uriPattern = "/" + this.uriBasePattern + "/**";
+
 		http.csrf()
 				.and()
 				.authorizeRequests()
-				.antMatchers(uriPattern).authenticated()
+				.antMatchers(uriPattern)
+				.authenticated()
 				.and()
 				.headers()
 				.xssProtection()
@@ -52,12 +56,12 @@ public class TelcoSecurityConfig {
 
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
-		return web -> web.ignoring().antMatchers(
-				"/" + uriBasePattern + "/**",
-				"/actuator/**",
-				"/v2/api-docs/**",
-				"/swagger-ui/**",
-				"/h2-console/**"
+		return (web) -> web.ignoring().antMatchers(
+			"/" + uriBasePattern + "/**", 
+			"/v2/api-docs/**", 
+			"/swagger-ui/**", 
+			"/h2-console/**", 
+			"/actuator/**"
 		);
 	}
 
