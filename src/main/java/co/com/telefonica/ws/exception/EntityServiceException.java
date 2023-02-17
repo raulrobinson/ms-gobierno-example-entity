@@ -8,10 +8,8 @@ package co.com.telefonica.ws.exception;
  * @version 3.0.0
  */
 public class EntityServiceException extends RuntimeException {
-
 	private static final long serialVersionUID = 1L;
 	public EntityServiceException(String message) {
 		super(message);
 	}
-
 }
