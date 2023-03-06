@@ -17,7 +17,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor()
-public class ErrorEntity {
+public class TelcoErrorEntity {
 
 	/* Fecha y hora en la que se registra el error en formato YYYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm] */
 	private String timestamp;
@@ -30,7 +30,7 @@ public class ErrorEntity {
 	 * y se establece la fecha y hora en la que se genera el error
 	 * @param message String
 	 */
-	public ErrorEntity(String message) {
+	public TelcoErrorEntity(String message) {
 		this.timestamp = new TelcoUtilHeader().getTimestampValue();
 		this.message = "ERROR: " + message;
 	}

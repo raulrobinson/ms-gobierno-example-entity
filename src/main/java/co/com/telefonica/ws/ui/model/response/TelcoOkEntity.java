@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class OkEntity implements Serializable{
+public class TelcoOkEntity implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -27,7 +27,7 @@ public class OkEntity implements Serializable{
 
 	private String message;
 
-	public OkEntity() {
+	public TelcoOkEntity() {
 		this.status = "200";
 		this.message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
 	}
@@ -37,7 +37,7 @@ public class OkEntity implements Serializable{
 	 * @param status String
 	 * @param message String
 	 */
-	public OkEntity(String status, String message) {
+	public TelcoOkEntity(String status, String message) {
 		this.status = status;
 		this.message = TelcoSecurityUtils.blindParameter(message);
 	}

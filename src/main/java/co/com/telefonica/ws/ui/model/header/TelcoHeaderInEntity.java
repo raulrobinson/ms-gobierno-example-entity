@@ -21,7 +21,7 @@ import java.io.Serializable;
 @Setter
 @ToString
 @NoArgsConstructor
-public class HeaderInEntity implements Serializable {
+public class TelcoHeaderInEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -65,7 +65,7 @@ public class HeaderInEntity implements Serializable {
 	 * 
 	 * @param headers, información que viene del HTTP headers
 	 */
-	public HeaderInEntity(HttpHeaders headers) {
+	public TelcoHeaderInEntity(HttpHeaders headers) {
 		super();
 		this.paramAu = TelcoSecurityUtils.blindParameter(headers.getFirst("authorization"));
 		this.system = TelcoSecurityUtils.blindParameter(headers.getFirst("system"));

@@ -7,9 +7,11 @@ package co.com.telefonica.ws.exception;
  * @date: 17-02-2023
  * @version 3.0.0
  */
-public class EntityServiceException extends RuntimeException {
+public class TelcoEntityServiceException extends RuntimeException {
+
 	private static final long serialVersionUID = 1L;
-	public EntityServiceException(String message) {
+	public TelcoEntityServiceException(String message) {
 		super(message);
 	}
+
 }

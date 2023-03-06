@@ -16,7 +16,7 @@ import java.util.Map;
  * @version 3.0.0
  */
 @Getter @Setter @Builder
-public class ErrorException {
+public class TelcoErrorException {
     private String code ;
     private List<Map<String, String >> messages ;
 }

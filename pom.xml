@@ -6,35 +6,36 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.6</version>
+		<version>2.5.8</version>
 		<relativePath />
 	</parent>
 	<groupId>co.com.telefonica</groupId>
 	<artifactId>ms-gobierno-example-entity</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ms-gobierno-example-entity</name>
-	<description>Test Gobierno</description>
+	<description>Gobierno Template Test</description>
 	<packaging>jar</packaging>
 	<properties>
 		<java.version>11</java.version>
-		<cloud.version>2020.0.6</cloud.version>
-		<spring-boot-admin.version>2.3.0</spring-boot-admin.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 		<start-class>co.com.telefonica.ws.AppWsApplication</start-class>
 		<maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
-		<docker.image.prefix>docker.image.prefix</docker.image.prefix>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jacoco.version>0.8.7</jacoco.version>
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.jacoco.reportPath>project.basedir/../target/jacoco.exec</sonar.jacoco.reportPath>
 		<sonar.language>java</sonar.language>
 		<sonar.exclusions>
-			src/main/java/co/com/telefonica/ws/AppWsApplication.java
+			src/main/java/co/com/telefonica/ws/*Application.java
 		</sonar.exclusions>
 		<sonar.coverage.exclusions>
+			src/main/java/co/com/telefonica/ws/repository/**/*,
+			src/main/java/co/com/telefonica/ws/businesslogic/**/*,
 			src/main/java/co/com/telefonica/ws/config/**/*,
 			src/main/java/co/com/telefonica/ws/dto/**/*,
 			src/main/java/co/com/telefonica/ws/entity/**/*,
-			src/main/java/co/com/telefonica/ws/repository/**/*,
 			src/main/java/co/com/telefonica/ws/exception/**/*,
 			src/main/java/co/com/telefonica/ws/service/**/*,
 			src/main/java/co/com/telefonica/ws/ui/**/*,
@@ -42,6 +43,7 @@
 		</sonar.coverage.exclusions>
 		<docker.image.prefix>opt</docker.image.prefix>
 	</properties>
+
 	<dependencies>
 
 		<!-- Takes third-party HTML and produces HTML that is safe -->
@@ -57,7 +59,7 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- Starter for using Spring Security -->
+		<!-- Starter for using Spring Security. -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -103,12 +105,6 @@
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
-		<!-- Micrometer Prometheus registry -->
-		<dependency>
-			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-registry-prometheus</artifactId>
-		</dependency>
-
 		<!-- Admin Client for Metrics -->
 		<dependency>
 			<groupId>de.codecentric</groupId>
@@ -119,6 +115,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- Spring Boot Configuration Annotation Processor -->
@@ -157,40 +154,18 @@
 			<version>3.0.0-M7</version>
 		</dependency>
 
-		<!-- H2 memory database test -->
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
-		<!-- MySQL Driver
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.28</version>
-			<scope>runtime</scope>
-		</dependency>-->
-		<!-- PostgreSQL Driver
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>42.2.27</version>
-			<scope>runtime</scope>
-		</dependency>-->
-		<!-- Oracle JDBC driver
-		<dependency>
-			<groupId>com.oracle.database.jdbc</groupId>
-			<artifactId>ojdbc8</artifactId>
-			<version>21.7.0.0</version>
-		</dependency>-->
-
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-mongodb
-		<dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-mongodb -->
+		<!--<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 			<version>2.7.5</version>
 		</dependency>-->
+
+		<!-- H2 memory database test -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
 
 		<!-- Spring Boot Developer Tools -->
 		<dependency>
@@ -219,14 +194,14 @@
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${cloud.version}</version>
+				<version>2020.0.6</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>de.codecentric</groupId>
 				<artifactId>spring-boot-admin-dependencies</artifactId>
-				<version>${spring-boot-admin.version}</version>
+				<version>2.3.1</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -234,7 +209,7 @@
 	</dependencyManagement>
 
 	<build>
-		<finalName>${project.name}</finalName>
+		<finalName>ms-gobierno-example-entity</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -251,13 +226,13 @@
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>0.2.3</version>
 				<configuration>
-					<imageName>${docker.image.prefix}/${project.name}</imageName>
+					<imageName>${docker.image.prefix}/ms-gobierno-example-entity</imageName>
 					<dockerDirectory>${project.build.directory}/docker</dockerDirectory>
 					<resources>
 						<resource>
 							<targetPath>/</targetPath>
 							<directory>${project.build.directory}</directory>
-							<include>${project.name}.jar</include>
+							<include>ms-gobierno-example-entity.jar</include>
 						</resource>
 					</resources>
 				</configuration>
@@ -340,6 +315,34 @@
 								</resource>
 							</resources>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.6</version>
+				<executions>
+					<execution>
+						<id>jacoco-initialize</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<phase>test-compile</phase>
+					</execution>
+					<execution>
+						<id>jacoco-site</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>

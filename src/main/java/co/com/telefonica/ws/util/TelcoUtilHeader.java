@@ -1,7 +1,7 @@
 package co.com.telefonica.ws.util;
 
-import co.com.telefonica.ws.ui.model.header.HeaderInEntity;
-import co.com.telefonica.ws.ui.model.header.HeaderOutEntity;
+import co.com.telefonica.ws.ui.model.header.TelcoHeaderInEntity;
+import co.com.telefonica.ws.ui.model.header.TelcoHeaderOutEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +39,7 @@ public class TelcoUtilHeader {
 	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
 	private static final String REGEX_FORMAT = "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}";
 
-	private HeaderInEntity headerIn = null;
+	private TelcoHeaderInEntity headerIn = null;
 
 	/**
 	 * 
@@ -48,8 +48,8 @@ public class TelcoUtilHeader {
 	 * @return headerIn
 	 * @throws IOException
 	 * */
-	public HeaderInEntity processHeader(HttpHeaders headers) throws IOException {
-		headerIn = new HeaderInEntity(headers);
+	public TelcoHeaderInEntity processHeader(HttpHeaders headers) throws IOException {
+		headerIn = new TelcoHeaderInEntity(headers);
 		if (validateHeader(headerIn)) {
 			return headerIn;
 		} else {
@@ -63,11 +63,11 @@ public class TelcoUtilHeader {
 	 * @return
 	 * @throws IOException
 	 */
-	public HeaderOutEntity processHeaderOut(HttpHeaders headers) throws IOException {
-		headerIn = new HeaderInEntity(headers);
+	public TelcoHeaderOutEntity processHeaderOut(HttpHeaders headers) throws IOException {
+		headerIn = new TelcoHeaderInEntity(headers);
 
 		if (validateHeader(headerIn)) {
-			return new HeaderOutEntity();
+			return new TelcoHeaderOutEntity();
 		} else {
 			throw new IOException("Bad Request");
 		}
@@ -93,7 +93,7 @@ public class TelcoUtilHeader {
 	 * @param headerIn, objeto header a validar
 	 * @return boolean, verdadero, si el header no cumple con las especificaciones
 	 */
-	public boolean validateHeader(HeaderInEntity headerIn) {
+	public boolean validateHeader(TelcoHeaderInEntity headerIn) {
 
 		if (headerIn == null) {
 			return false;
@@ -190,7 +190,7 @@ public class TelcoUtilHeader {
 	 * @param headers
 	 * @return
 	 */
-	public HttpHeaders buildHeaderOut(HeaderOutEntity headers) {
+	public HttpHeaders buildHeaderOut(TelcoHeaderOutEntity headers) {
 		HttpHeaders responseHeaders = new HttpHeaders();
 		headers.updateTimeStamp();
 

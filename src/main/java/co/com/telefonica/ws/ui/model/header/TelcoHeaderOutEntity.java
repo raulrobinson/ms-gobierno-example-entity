@@ -18,7 +18,7 @@ import java.io.Serializable;
  * @author COEArquitectura@telefonica.com
  * @since 18/08/2021
  */
-public class HeaderOutEntity implements Serializable {
+public class TelcoHeaderOutEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -32,7 +32,7 @@ public class HeaderOutEntity implements Serializable {
 	/* Indica el tipo de interacción del microservicio, por ejemplo Response	 */
 	private String msgType;
 
-	public HeaderOutEntity() {
+	public TelcoHeaderOutEntity() {
 		super();
 
 		this.timestamp = new TelcoUtilHeader().getTimestampValue();

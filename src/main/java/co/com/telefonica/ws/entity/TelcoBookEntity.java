@@ -6,24 +6,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
-/**
- * CLASS REGION ENTITY.
- *
- * @autor: COE-Arquitectura-Telefonica
- * @date: 17-02-2023
- * @version 3.0.0
- */
 @Data
 @Entity
 @Builder
-@Table(name = "tbl_regions")
+@Table(name = "books")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Region implements Serializable {
+public class TelcoBookEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String name;
+	@Column(name = "codebook")
+	private String codebook;
+	@Column(name = "title")
+	private String title;
+	@Column(name = "description")
+	private String description;
+	@Column(name = "published")
+	private boolean published;
 }

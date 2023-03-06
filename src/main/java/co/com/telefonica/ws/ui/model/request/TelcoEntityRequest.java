@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
  */
 @Getter
 @Setter
-public class EntityRequest {
+public class TelcoEntityRequest {
 	
 	
 	/* Reemplazar parameter por el nombre de la variable , esto afecta los gets y sets	 */

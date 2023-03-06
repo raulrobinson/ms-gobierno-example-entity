@@ -1,6 +1,6 @@
 package co.com.telefonica.ws.exception;
 
-import co.com.telefonica.ws.ui.model.response.ErrorEntity;
+import co.com.telefonica.ws.ui.model.response.TelcoErrorEntity;
 import co.com.telefonica.ws.util.TelcoUtilHeader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class AppExceptionHandler extends ResponseEntityExceptionHandler  {
+public class TelcoAppExceptionHandler extends ResponseEntityExceptionHandler  {
 
 	/**
 	 * **********************
@@ -29,7 +29,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler  {
 	public ResponseEntity<Object> handleAnyException(Exception ex,WebRequest request){
 		String errorMessage=ex.getLocalizedMessage();
 		if (errorMessage==null)errorMessage=ex.toString();
-		ErrorEntity message=new ErrorEntity(new TelcoUtilHeader().getTimestampValue(),errorMessage);
+		TelcoErrorEntity message=new TelcoErrorEntity(new TelcoUtilHeader().getTimestampValue(),errorMessage);
 		
 		return new ResponseEntity<>(
 				message,new HttpHeaders(),HttpStatus.INTERNAL_SERVER_ERROR);
@@ -41,11 +41,11 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler  {
 	 * @param request WebRequest
 	 * @return
 	 */
-	@ExceptionHandler(value= {EntityServiceException.class})
-	public ResponseEntity<Object> handleAnyException(EntityServiceException ex,WebRequest request) {
+	@ExceptionHandler(value= {TelcoEntityServiceException.class})
+	public ResponseEntity<Object> handleAnyException(TelcoEntityServiceException ex, WebRequest request) {
 		String errorMessage=ex.getLocalizedMessage();
 		if (errorMessage==null)errorMessage=ex.toString();
-		ErrorEntity message=new ErrorEntity(new TelcoUtilHeader().getTimestampValue(),errorMessage);
+		TelcoErrorEntity message=new TelcoErrorEntity(new TelcoUtilHeader().getTimestampValue(),errorMessage);
 		
 		return new ResponseEntity<>(
 				message,new HttpHeaders(),HttpStatus.INTERNAL_SERVER_ERROR);
