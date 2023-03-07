@@ -1,7 +1,6 @@
 package co.com.telefonica.ws.util;
 
 import co.com.telefonica.ws.entity.TelcoBookEntity;
-import co.com.telefonica.ws.ui.model.TelcoBookModel;
 import org.owasp.html.PolicyFactory;
 import org.owasp.html.Sanitizers;
 
@@ -15,7 +14,7 @@ public class TelcoSecurityUtils {
 	/**
 	 * Función que se encarga de cubrir la vulnerabilidad de cross site scripting
 	 * Comentario X para activar el flujo de DevOps
-	 * @param headerValue
+	 * @param headerValue String
 	 * @return sanitazedHeader
 	 */
 	public static String blindParameter(String headerValue) {
@@ -31,7 +30,6 @@ public class TelcoSecurityUtils {
 		book.setTitle(policy.sanitize(telcoBookEntity.getTitle()));
 		book.setCodebook(policy.sanitize(telcoBookEntity.getCodebook()));
 		book.setDescription(policy.sanitize(telcoBookEntity.getDescription()));
-		book.setPublished(telcoBookEntity.isPublished());
 		return book;
 	}
 
