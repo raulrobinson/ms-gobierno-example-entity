@@ -5,8 +5,11 @@ import co.com.telefonica.ws.dto.TelcoBookRequestDTO;
 import co.com.telefonica.ws.dto.TelcoBookResponseDTO;
 import co.com.telefonica.ws.entity.TelcoBookEntity;
 import co.com.telefonica.ws.ui.model.response.TelcoResponseHeader;
+import co.com.telefonica.ws.util.TelcoSecurityUtils;
 import co.com.telefonica.ws.util.validator.TelcoValidateHeaders;
 import lombok.extern.slf4j.Slf4j;
+import org.owasp.html.PolicyFactory;
+import org.owasp.html.Sanitizers;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -45,10 +48,11 @@ public class TelcoBookController {
 						.data(null)
 						.build(), HttpStatus.NOT_FOUND);
 			}
+			var telcoBookRes = new TelcoSecurityUtils().blindBooksList(telcoBookEntities);
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
 					.code(200L)
 					.message("200 OK")
-					.data(telcoBookEntities)
+					.data(telcoBookRes)
 					.build(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
