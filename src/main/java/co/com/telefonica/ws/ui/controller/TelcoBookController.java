@@ -32,6 +32,7 @@ public class TelcoBookController {
 	@GetMapping("/books")
 	public ResponseEntity<TelcoBookResponseDTO> getAllBooks(
 			@RequestHeader HttpHeaders headers) throws RuntimeException{
+		PolicyFactory policy = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
 		try {
 			if (new TelcoValidateHeaders().validateHeaders(headers)) {
 				return new ResponseEntity<>(TelcoBookResponseDTO.builder()
@@ -56,8 +57,8 @@ public class TelcoBookController {
 					.build(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
-					.code(503L)
-					.message("503 Server Internal Error")
+					.code(Long.valueOf(policy.sanitize("503")))
+					.message(policy.sanitize("503 Server Internal Error"))
 					.data(null)
 					.build(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -67,6 +68,7 @@ public class TelcoBookController {
 	public ResponseEntity<TelcoBookResponseDTO> getBookByCodebook(
 			@RequestHeader HttpHeaders headers,
 			@RequestParam("codebook") String codebook) throws RuntimeException{
+		PolicyFactory policy = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
 		try {
 			if (new TelcoValidateHeaders().validateHeaders(headers)) {
 				return new ResponseEntity<>(TelcoBookResponseDTO.builder()
@@ -77,21 +79,22 @@ public class TelcoBookController {
 			}
 			TelcoBookEntity telcoBookEntityData = telcoBookService.getByCodebook(codebook);
 			var telcoBookRes = new TelcoSecurityUtils().blindBook(telcoBookEntityData);
-			if (telcoBookEntityData == null)
+			if (telcoBookRes == null) {
 				return new ResponseEntity<>(TelcoBookResponseDTO.builder()
-						.code(404L)
-						.message("404 Not Found")
+						.code(Long.valueOf(policy.sanitize("404")))
+						.message(policy.sanitize("404 Not Found"))
 						.data(null)
 						.build(), HttpStatus.NOT_FOUND);
+			}
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
-					.code(200L)
-					.message("200 OK")
+					.code(Long.valueOf(policy.sanitize("200")))
+					.message(policy.sanitize("200 OK"))
 					.data(telcoBookRes)
 					.build(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
-					.code(503L)
-					.message("503 Server Internal Error")
+					.code(Long.valueOf(policy.sanitize("503")))
+					.message(policy.sanitize("503 Server Internal Error"))
 					.data(null)
 					.build(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -101,6 +104,7 @@ public class TelcoBookController {
 	public ResponseEntity<TelcoBookResponseDTO> findById(
 			@RequestHeader HttpHeaders headers,
 			@RequestParam(value = "id", required = true) Long id) throws RuntimeException{
+		PolicyFactory policy = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
 		try {
 			if (new TelcoValidateHeaders().validateHeaders(headers)) {
 				return new ResponseEntity<>(TelcoBookResponseDTO.builder()
@@ -111,22 +115,22 @@ public class TelcoBookController {
 			}
 			TelcoBookEntity telcoBookEntity = telcoBookService.getBookById(id);
 			var telcoBookRes = new TelcoSecurityUtils().blindBook(telcoBookEntity);
-			if (telcoBookEntity == null) {
+			if (telcoBookRes == null) {
 				return new ResponseEntity<>(TelcoBookResponseDTO.builder()
-						.code(404L)
-						.message("404 Not Found")
+						.code(Long.valueOf(policy.sanitize("404")))
+						.message(policy.sanitize("404 Not Found"))
 						.data(null)
 						.build(), HttpStatus.NOT_FOUND);
 			}
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
-					.code(200L)
-					.message("200 OK")
+					.code(Long.valueOf(policy.sanitize("200")))
+					.message(policy.sanitize("200 OK"))
 					.data(telcoBookRes)
 					.build(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
-					.code(503L)
-					.message("503 Server Internal Error")
+					.code(Long.valueOf(policy.sanitize("503")))
+					.message(policy.sanitize("503 Server Internal Error"))
 					.data(null)
 					.build(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -136,6 +140,7 @@ public class TelcoBookController {
 	public ResponseEntity<TelcoBookResponseDTO> createBook(
 			@RequestHeader HttpHeaders headers,
 			@RequestBody TelcoBookRequestDTO book) throws RuntimeException{
+		PolicyFactory policy = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
 		try {
 			if (new TelcoValidateHeaders().validateHeaders(headers)) {
 				return new ResponseEntity<>(TelcoBookResponseDTO.builder()
@@ -147,14 +152,14 @@ public class TelcoBookController {
 			TelcoBookEntity telcoBook = telcoBookService.createBook(book);
 			var telcoBookRes = new TelcoSecurityUtils().blindBook(telcoBook);
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
-					.code(200L)
-					.message("200 OK")
+					.code(Long.valueOf(policy.sanitize("200")))
+					.message(policy.sanitize("200 OK"))
 					.data(telcoBookRes)
 					.build(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
-					.code(503L)
-					.message("503 Server Internal Error")
+					.code(Long.valueOf(policy.sanitize("503")))
+					.message(policy.sanitize("503 Server Internal Error"))
 					.data(null)
 					.build(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -165,6 +170,7 @@ public class TelcoBookController {
 			@RequestHeader HttpHeaders headers,
 			@RequestParam(value = "id", required = true) Long id,
 			@RequestBody TelcoBookRequestDTO book) throws RuntimeException{
+		PolicyFactory policy = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
 		try {
 			if (new TelcoValidateHeaders().validateHeaders(headers)) {
 				return new ResponseEntity<>(TelcoBookResponseDTO.builder()
@@ -176,14 +182,14 @@ public class TelcoBookController {
 			TelcoBookEntity telcoBook = telcoBookService.updateBook(id, book);
 			var telcoBookRes = new TelcoSecurityUtils().blindBook(telcoBook);
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
-					.code(200L)
-					.message("200 OK")
+					.code(Long.valueOf(policy.sanitize("200")))
+					.message(policy.sanitize("200 OK"))
 					.data(telcoBookRes)
 					.build(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
-					.code(404L)
-					.message("404 Not Found")
+					.code(Long.valueOf(policy.sanitize("404")))
+					.message(policy.sanitize("404 Not Found"))
 					.data(null)
 					.build(), HttpStatus.NOT_FOUND);
 		}
@@ -193,6 +199,7 @@ public class TelcoBookController {
 	public ResponseEntity<TelcoBookResponseDTO> deleteBook(
 			@RequestHeader HttpHeaders headers,
 			@RequestParam(value = "id", required = true) Long id) throws RuntimeException{
+		PolicyFactory policy = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
 		try {
 			if (new TelcoValidateHeaders().validateHeaders(headers)) {
 				return new ResponseEntity<>(TelcoBookResponseDTO.builder()
@@ -204,14 +211,14 @@ public class TelcoBookController {
 			TelcoBookEntity telcoBook = telcoBookService.deleteById(id);
 			var telcoBookRes = new TelcoSecurityUtils().blindBook(telcoBook);
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
-					.code(200L)
-					.message("200 OK")
+					.code(Long.valueOf(policy.sanitize("200")))
+					.message(policy.sanitize("200 OK"))
 					.data(telcoBookRes)
 					.build(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
-					.code(404L)
-					.message("404 Not Found")
+					.code(Long.valueOf(policy.sanitize("404")))
+					.message(policy.sanitize("404 Not Found"))
 					.data(null)
 					.build(), HttpStatus.NOT_FOUND);
 		}
