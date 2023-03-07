@@ -13,7 +13,7 @@
 	<artifactId>ms-gobierno-example-entity</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ms-gobierno-example-entity</name>
-	<description>Gobierno Template Test</description>
+	<description>Gobierno Template Test.</description>
 	<packaging>jar</packaging>
 	<properties>
 		<java.version>11</java.version>
