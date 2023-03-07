@@ -31,7 +31,7 @@ public class TelcoBookController {
 
 	@GetMapping("/books")
 	public ResponseEntity<TelcoBookResponseDTO> getAllBooks(
-			@RequestHeader HttpHeaders headers) {
+			@RequestHeader HttpHeaders headers) throws RuntimeException{
 		try {
 			if (new TelcoValidateHeaders().validateHeaders(headers)) {
 				return new ResponseEntity<>(TelcoBookResponseDTO.builder()
@@ -66,7 +66,7 @@ public class TelcoBookController {
 	@GetMapping("/books/codebook")
 	public ResponseEntity<TelcoBookResponseDTO> getBookByCodebook(
 			@RequestHeader HttpHeaders headers,
-			@RequestParam("codebook") String codebook) {
+			@RequestParam("codebook") String codebook) throws RuntimeException{
 		try {
 			if (new TelcoValidateHeaders().validateHeaders(headers)) {
 				return new ResponseEntity<>(TelcoBookResponseDTO.builder()
@@ -76,6 +76,7 @@ public class TelcoBookController {
 						.build(), HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			TelcoBookEntity telcoBookEntityData = telcoBookService.getByCodebook(codebook);
+			var telcoBookRes = new TelcoSecurityUtils().blindBook(telcoBookEntityData);
 			if (telcoBookEntityData == null)
 				return new ResponseEntity<>(TelcoBookResponseDTO.builder()
 						.code(404L)
@@ -85,7 +86,7 @@ public class TelcoBookController {
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
 					.code(200L)
 					.message("200 OK")
-					.data(telcoBookEntityData)
+					.data(telcoBookRes)
 					.build(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
@@ -99,7 +100,7 @@ public class TelcoBookController {
 	@GetMapping("/books/id")
 	public ResponseEntity<TelcoBookResponseDTO> findById(
 			@RequestHeader HttpHeaders headers,
-			@RequestParam(value = "id", required = true) Long id) {
+			@RequestParam(value = "id", required = true) Long id) throws RuntimeException{
 		try {
 			if (new TelcoValidateHeaders().validateHeaders(headers)) {
 				return new ResponseEntity<>(TelcoBookResponseDTO.builder()
@@ -109,6 +110,7 @@ public class TelcoBookController {
 						.build(), HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			TelcoBookEntity telcoBookEntity = telcoBookService.getBookById(id);
+			var telcoBookRes = new TelcoSecurityUtils().blindBook(telcoBookEntity);
 			if (telcoBookEntity == null) {
 				return new ResponseEntity<>(TelcoBookResponseDTO.builder()
 						.code(404L)
@@ -119,7 +121,7 @@ public class TelcoBookController {
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
 					.code(200L)
 					.message("200 OK")
-					.data(telcoBookEntity)
+					.data(telcoBookRes)
 					.build(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
@@ -133,7 +135,7 @@ public class TelcoBookController {
 	@PostMapping("/books")
 	public ResponseEntity<TelcoBookResponseDTO> createBook(
 			@RequestHeader HttpHeaders headers,
-			@RequestBody TelcoBookRequestDTO book) {
+			@RequestBody TelcoBookRequestDTO book) throws RuntimeException{
 		try {
 			if (new TelcoValidateHeaders().validateHeaders(headers)) {
 				return new ResponseEntity<>(TelcoBookResponseDTO.builder()
@@ -142,11 +144,12 @@ public class TelcoBookController {
 						.data(TelcoResponseHeader.BadHeaders())
 						.build(), HttpStatus.INTERNAL_SERVER_ERROR);
 			}
-			TelcoBookEntity req = telcoBookService.createBook(book);
+			TelcoBookEntity telcoBook = telcoBookService.createBook(book);
+			var telcoBookRes = new TelcoSecurityUtils().blindBook(telcoBook);
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
 					.code(200L)
 					.message("200 OK")
-					.data(req)
+					.data(telcoBookRes)
 					.build(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
@@ -161,7 +164,7 @@ public class TelcoBookController {
 	public ResponseEntity<TelcoBookResponseDTO> updateBook(
 			@RequestHeader HttpHeaders headers,
 			@RequestParam(value = "id", required = true) Long id,
-			@RequestBody TelcoBookRequestDTO book) {
+			@RequestBody TelcoBookRequestDTO book) throws RuntimeException{
 		try {
 			if (new TelcoValidateHeaders().validateHeaders(headers)) {
 				return new ResponseEntity<>(TelcoBookResponseDTO.builder()
@@ -170,11 +173,12 @@ public class TelcoBookController {
 						.data(TelcoResponseHeader.BadHeaders())
 						.build(), HttpStatus.INTERNAL_SERVER_ERROR);
 			}
-			TelcoBookEntity req = telcoBookService.updateBook(id, book);
+			TelcoBookEntity telcoBook = telcoBookService.updateBook(id, book);
+			var telcoBookRes = new TelcoSecurityUtils().blindBook(telcoBook);
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
 					.code(200L)
 					.message("200 OK")
-					.data(req)
+					.data(telcoBookRes)
 					.build(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
@@ -188,7 +192,7 @@ public class TelcoBookController {
 	@DeleteMapping("/books")
 	public ResponseEntity<TelcoBookResponseDTO> deleteBook(
 			@RequestHeader HttpHeaders headers,
-			@RequestParam(value = "id", required = true) Long id) {
+			@RequestParam(value = "id", required = true) Long id) throws RuntimeException{
 		try {
 			if (new TelcoValidateHeaders().validateHeaders(headers)) {
 				return new ResponseEntity<>(TelcoBookResponseDTO.builder()
@@ -197,11 +201,12 @@ public class TelcoBookController {
 						.data(TelcoResponseHeader.BadHeaders())
 						.build(), HttpStatus.INTERNAL_SERVER_ERROR);
 			}
-			TelcoBookEntity req = telcoBookService.deleteById(id);
+			TelcoBookEntity telcoBook = telcoBookService.deleteById(id);
+			var telcoBookRes = new TelcoSecurityUtils().blindBook(telcoBook);
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()
 					.code(200L)
 					.message("200 OK")
-					.data(req)
+					.data(telcoBookRes)
 					.build(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(TelcoBookResponseDTO.builder()

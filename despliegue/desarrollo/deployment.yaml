@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: template-ms-gobierno-example-entity
+  name: ms-gobierno-example-entity
   annotations:
     description: "Template para generacion del servicio de ms-gobierno-example-entity para Telefonica"
     iconClass: "icon-rh-integration"
@@ -14,7 +14,7 @@ objects:
         app.kubernetes.io/component: ms-gobierno-example-entity
         app.kubernetes.io/instance: ms-gobierno-example-entity
       name: ms-gobierno-example-entity
-      namespace: gobierno
+      namespace: geografia
     spec:
       replicas: 1
       revisionHistoryLimit: 10
@@ -50,8 +50,10 @@ objects:
               image: image-registry.openshift-image-registry.svc:5000/gobierno/ms-gobierno-example-entity:latest
               imagePullPolicy: Always
               envFrom:
+                - configMapRef:
+                    name: configmap-ms-gobierno-example-entity
                 - secretRef:
-                    name: secret-mongo-database
+                    name: secret-ms-gobierno-example-entity
               resources:
                 limits:
                   cpu: 200m
@@ -59,6 +61,26 @@ objects:
                 requests:
                   cpu: 10m
                   memory: 10Mi
+              readinessProbe:
+                httpGet:
+                  path: /actuator/
+                  port: 8087
+                  scheme: HTTP
+                failureThreshold: 3
+                initialDelaySeconds: 20
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 120
+              livenessProbe:
+                httpGet:
+                  path: /actuator/
+                  port: 8087
+                  scheme: HTTP
+                failureThreshold: 2
+                initialDelaySeconds: 60
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 120
           dnsPolicy: ClusterFirst
           restartPolicy: Always
           schedulerName: default-scheduler
@@ -72,7 +94,7 @@ objects:
         app.kubernetes.io/component: ms-gobierno-example-entity
         app.kubernetes.io/instance: ms-gobierno-example-entity
       name: ms-gobierno-example-entity
-      namespace: gobierno
+      namespace: geografia
     spec:
       ports:
         - name: http-web
@@ -88,7 +110,7 @@ objects:
       labels:
         app: ms-gobierno-example-entity
       name: ms-gobierno-example-entity
-      namespace: gobierno
+      namespace: geografia
     spec:
       scaleTargetRef:
         apiVersion: apps.openshift.io/v1
@@ -103,11 +125,20 @@ objects:
             target:
               averageUtilization: 80
               type: Utilization
+  - kind: ConfigMap
+    apiVersion: v1
+    metadata:
+      name: configmap-ms-gobierno-example-entity
+    data:
+      spring.datasource.driverClassName: org.h2.Driver
+      spring.h2.console.enabled: true
+      server.port: '8080'
+      controller.properties.base-path: 'telefonica/v1/ms-gobierno-example-entity'
   - apiVersion: networking.istio.io/v1beta1
     kind: DestinationRule
     metadata:
       name: ms-gobierno-example-entity
-      namespace: gobierno
+      namespace: geografia
     spec:
       host: ms-gobierno-example-entity
       trafficPolicy:
@@ -117,7 +148,7 @@ objects:
     kind: VirtualService
     metadata:
       name: ms-gobierno-example-entity
-      namespace: gobierno
+      namespace: geografia
     spec:
       gateways:
         - istio-system/wildcard-gateway
@@ -126,7 +157,7 @@ objects:
       http:
         - match:
             - uri:
-                regex: /telefonica/v1/ms-gobierno-example-entity/*
+                regex: /telefonica/v1/ms-gobierno-example-entity
           route:
             - destination:
                 host: ms-gobierno-example-entity
