@@ -1,0 +1,72 @@
+{"properties": [
+  {
+    "name": "swagger.properties.project-name",
+    "type": "java.lang.String",
+    "description": "Nombre del microservicio o del proyecto"
+  },
+  {
+    "name": "swagger.properties.project-short-description",
+    "type": "java.lang.String",
+    "description": "Una corta descripción de las funcionalidades del proyecto"
+  },
+  {
+    "name": "swagger.properties.developer-name",
+    "type": "java.lang.String",
+    "description": "Tu nombre, o el nombre del desarrollador"
+  },
+  {
+    "name": "swagger.properties.developer-mail",
+    "type": "java.lang.String",
+    "description": "Correo electrónico del desarrollador... preferiblemente el corporativo"
+  },
+  {
+    "name": "swagger.properties.project-tos-msg",
+    "type": "java.lang.String",
+    "description": "mensaje visible de los terminos de servicio del microservicio"
+  },
+  {
+    "name": "swagger.properties.project-licence-msg",
+    "type": "java.lang.String",
+    "description": "Mensaje con el que se va a mostrar la licencia del microservicio"
+  },
+  {
+    "name": "swagger.properties.project-tos-link",
+    "type": "java.lang.String",
+    "description": "Enlace en el que se puedan leer los terminos de servicio del microservicio"
+  },
+  {
+    "name": "swagger.properties.project-licence-link",
+    "type": "java.lang.String",
+    "description": "Link en el que se pueda leer la licencia bajo la cual se rige el uso del microservicio"
+  },
+  {
+    "name": "swagger.properties.organization-url",
+    "type": "java.lang.String",
+    "description": "URL de la empresa para la cual se desarrolla el microservicio"
+  },
+  {
+    "name": "controller.properties.base-path",
+    "type": "java.lang.String",
+    "description": "URI base sobre la cual se van a exponer las operaciones del microservicio"
+  },
+  {
+    "name": "error.headers",
+    "type": "java.lang.String",
+    "description": "Ejemplo de configuración de mensajes de error por medio de propiedades"
+  },
+  {
+    "name": "log.endPoint",
+    "type": "java.lang.String",
+    "description": "Endpoint en el que se van a registrar los logs de las aplicaciones"
+  },
+  {
+    "name": "log.endPointConnectTimeout",
+    "type": "java.lang.String",
+    "description": "timeout en ms para establecer la conexión al servicio de logs"
+  },
+  {
+    "name": "log.endPointReadTimeout",
+    "type": "java.lang.String",
+    "description": "timeout en ms para hacer la lectura de logs"
+  }
+]}

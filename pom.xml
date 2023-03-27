@@ -24,37 +24,31 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sonar.language>java</sonar.language>
 		<sonar.exclusions>
-			src/main/java/co/com/telefonica/ws/*Application.java
+			src/main/java/co/com/telefonica/ws/AppWsApplication.java
 		</sonar.exclusions>
 		<sonar.coverage.exclusions>
-			src/main/java/co/com/telefonica/ws/repository/**/*,
-			src/main/java/co/com/telefonica/ws/businesslogic/**/*,
 			src/main/java/co/com/telefonica/ws/config/**/*,
 			src/main/java/co/com/telefonica/ws/dto/**/*,
 			src/main/java/co/com/telefonica/ws/entity/**/*,
 			src/main/java/co/com/telefonica/ws/exception/**/*,
-			src/main/java/co/com/telefonica/ws/service/**/*,
+			src/main/java/co/com/telefonica/ws/repository/**/*,
 			src/main/java/co/com/telefonica/ws/ui/**/*,
 			src/main/java/co/com/telefonica/ws/util/**/*
 		</sonar.coverage.exclusions>
 		<docker.image.prefix>opt</docker.image.prefix>
 	</properties>
-
 	<dependencies>
-
 		<!-- Takes third-party HTML and produces HTML that is safe -->
 		<dependency>
 			<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
 			<artifactId>owasp-java-html-sanitizer</artifactId>
 			<version>1.1</version>
 		</dependency>
-
 		<!-- Starter for building web, including RESTful, applications using Spring MVC -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<!-- Starter for using Spring Security. -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -65,19 +59,16 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<!-- Starter for using Spring Data JPA with Hibernate -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-
 		<!-- Starter for using Java Bean Validation with Hibernate Validator -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
-
 		<!-- JSON API documentation for spring based applications -->
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -94,33 +85,28 @@
 			<artifactId>springfox-bean-validators</artifactId>
 			<version>3.0.0</version>
 		</dependency>
-
 		<!-- Starter for using Spring Boot's Actuator which provides production ready features to help you monitor and manage your application -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-
 		<!-- Admin Client for Metrics -->
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-starter-client</artifactId>
 		</dependency>
-
 		<!-- Spice up your java: Automatic Resource Management, automatic generation of getters, setters, equals, hashCode and toString -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
 		<!-- Spring Boot Configuration Annotation Processor -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
-
 		<!-- The Resources Plugin handles the copying of project resources to the output directory -->
 		<dependency>
 			<groupId>org.apache.maven.plugins</groupId>
@@ -149,20 +135,11 @@
 			<artifactId>maven-surefire-plugin</artifactId>
 			<version>3.0.0-M7</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-mongodb -->
-		<!--<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
-			<version>2.7.5</version>
-		</dependency>-->
-
 		<!-- H2 memory database test -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
-
 		<!-- Spring Boot Developer Tools -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -170,7 +147,6 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-
 		<!-- Starter for testing Spring Boot applications with libraries including JUnit Jupiter, Hamcrest and Mockito -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -184,7 +160,6 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
-
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -203,7 +178,6 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
 	<build>
 		<finalName>ms-gobierno-example-entity</finalName>
 		<plugins>
@@ -333,7 +307,6 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
 	<profiles>
 		<profile>
 			<id>local</id>
